@@ -52,6 +52,14 @@ async function run() {
     const ideaCollection = db.collection("ideas");
     const commentCollection = db.collection("comments");
 
+    app.post("/ideas", verifyToken, async (req, res) => {
+      const ideaData = req.body;
+      console.log(ideaData);
+      const result = await ideaCollection.insertOne(ideaData);
+
+      res.json(result);
+    });
+
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
