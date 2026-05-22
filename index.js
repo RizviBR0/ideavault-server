@@ -81,6 +81,14 @@ async function run() {
       res.json(result);
     });
 
+    app.get("/ideas/:id", verifyToken, async (req, res) => {
+      const { id } = req.params;
+      const result = await ideaCollection.findOne({
+        _id: new ObjectId(id),
+      });
+      res.json(result);
+    });
+
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
