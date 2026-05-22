@@ -46,21 +46,25 @@ const verifyToken = async (req, res, next) => {
 
 async function run() {
   try {
+    // await client.connect();
+
     const db = client.db("ideavault");
     const ideaCollection = db.collection("ideas");
     const commentCollection = db.collection("comments");
 
-    app.get("/", (req, res) => {
-      res.send("IdeaVault Server is running smoothly");
-    });
-
-    console.log("Connected successfully to MongoDB!");
-  } catch (error) {
-    console.error(error);
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!"
+    );
+  } finally {
+    // await client.close();
   }
 }
 
 run().catch(console.dir);
+
+app.get("/", (req, res) => {
+  res.send("IdeaVault Server is running smoothly");
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
