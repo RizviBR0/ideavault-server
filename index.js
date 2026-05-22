@@ -65,6 +65,22 @@ async function run() {
       res.json(result);
     });
 
+    app.get("/ideas", async (req, res) => {
+      const { search, category } = req.query;
+      const filter = {};
+
+      if (search) {
+        filter.title = { $regex: search, $options: "i" };
+      }
+
+      if (category) {
+        filter.category = category;
+      }
+
+      const result = await ideaCollection.find(filter).toArray();
+      res.json(result);
+    });
+
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
