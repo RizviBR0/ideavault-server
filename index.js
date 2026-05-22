@@ -89,6 +89,21 @@ async function run() {
       res.json(result);
     });
 
+    app.post("/comments", verifyToken, async (req, res) => {
+      const commentData = req.body;
+      const result = await commentCollection.insertOne(commentData);
+      res.json(result);
+    });
+
+    app.get("/comments/:ideaId", async (req, res) => {
+      const { ideaId } = req.params;
+      const result = await commentCollection
+        .find({ ideaId })
+        .sort({ createdAt: -1 })
+        .toArray();
+      res.json(result);
+    });
+
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
