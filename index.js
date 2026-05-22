@@ -104,6 +104,39 @@ async function run() {
       res.json(result);
     });
 
+    app.get("/ideas/user/:userId", verifyToken, async (req, res) => {
+      const { userId } = req.params;
+      const result = await ideaCollection.find({ userId }).toArray();
+      res.json(result);
+    });
+
+    app.patch("/ideas/:id", verifyToken, async (req, res) => {
+      const { id } = req.params;
+      const updatedData = req.body;
+      if (updatedData._id) {
+        delete updatedData._id;
+      }
+      const result = await ideaCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: updatedData },
+      );
+      res.json(result);
+    });
+
+    app.delete("/ideas/:id", verifyToken, async (req, res) => {
+      const { id } = req.params;
+      const result = await ideaCollection.deleteOne({
+        _id: new ObjectId(id),
+      });
+      res.json(result);
+    });
+
+    app.get("/comments/user/:userId", verifyToken, async (req, res) => {
+      const { userId } = req.params;
+      const result = await commentCollection.find({ userId }).toArray();
+      res.json(result);
+    });
+
     app.patch("/comments/:id", verifyToken, async (req, res) => {
       const { id } = req.params;
       const updatedData = req.body;
