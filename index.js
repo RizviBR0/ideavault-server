@@ -104,6 +104,24 @@ async function run() {
       res.json(result);
     });
 
+    app.patch("/comments/:id", verifyToken, async (req, res) => {
+      const { id } = req.params;
+      const updatedData = req.body;
+      const result = await commentCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: updatedData },
+      );
+      res.json(result);
+    });
+
+    app.delete("/comments/:id", verifyToken, async (req, res) => {
+      const { id } = req.params;
+      const result = await commentCollection.deleteOne({
+        _id: new ObjectId(id),
+      });
+      res.json(result);
+    });
+
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
