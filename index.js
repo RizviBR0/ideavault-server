@@ -60,6 +60,11 @@ async function run() {
       res.json(result);
     });
 
+    app.get("/ideas/trending", async (req, res) => {
+      const result = await ideaCollection.find().sort({ likes: -1 }).limit(6).toArray();
+      res.json(result);
+    });
+
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
